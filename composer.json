@@ -1,0 +1,31 @@
+{
+    "name": "meraki/abnf",
+    "description": "A library for working with Augmented Backus-Naur Form in PHP 7.4+.",
+    "type": "library",
+    "require": {
+        "php": "^7.4"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Nathan Bishop",
+            "email": "nbish11@hotmail.com"
+        }
+    ],
+    "require-dev": {
+        "meraki/test-suite": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "Meraki\\Abnf\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Meraki\\Abnf\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit tests/"
+    }
+}
