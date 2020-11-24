@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace Meraki\Abnf;
 
-use Meraki\TestSuite;
+use Meraki\TestSuite\TestCase;
 use ReflectionClass;
 
-final class CoreRulesTest extends TestSuite
+final class CoreRulesTest extends TestCase
 {
 	/**
 	 * @test
