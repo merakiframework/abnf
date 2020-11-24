@@ -13,7 +13,7 @@
         }
     ],
     "require-dev": {
-        "meraki/test-suite": "dev-master"
+        "meraki/test-suite": "^0.1.0"
     },
     "autoload": {
         "psr-4": {
