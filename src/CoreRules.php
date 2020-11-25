@@ -68,8 +68,11 @@ abstract class CoreRules
 
 	// *(WSP / CRLF WSP)
 	const LWSP = [
-		"\x20\x09",	// WSP
-		"\x0d\x0A\x20\x09"	// CRLF WSP
+		"", 			// covers zero-or-more-of ("*") modifier
+		"\x20",			// WSP
+		"\x09",			// WSP
+		"\x0d\x0A\x20",	// CRLF WSP
+		"\x0d\x0A\x09"	// CRLF WSP
 	];
 
 	// %x00-FF ; 8 bits of data
