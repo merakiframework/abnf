@@ -234,12 +234,12 @@ final class CoreRulesTest extends TestCase
 	 */
 	public function can_combine_rules_to_provide_an_allowed_character_list(): void
 	{
-		$expectedCombinedRules = ["\x0D", "\x0D\x0A", "\x0A"];
+		$expectedAllowedCharacters = ["\x0D", "\x0D\x0A", "\x0A"];
 		$rules = [CoreRules::CR, CoreRules::CRLF, CoreRules::LF];
 
-		$actualCombinedRules = CoreRules::generateCharactersFromRules(...$rules);
+		$actualAllowedCharacters = CoreRules::generateCharactersFromRules(...$rules);
 
-		$this->assertEquals($expectedCombinedRules, iterator_to_array($actualCombinedRules));
+		$this->assertEquals($expectedAllowedCharacters, iterator_to_array($actualAllowedCharacters));
 	}
 
 	/**
@@ -247,12 +247,31 @@ final class CoreRulesTest extends TestCase
 	 */
 	public function combining_rules_to_provide_an_allowed_character_list_with_unique_results(): void
 	{
-		$expectedCombinedRules = array_merge(range('0', '9'), range('A', 'Z'), range('a', 'z'));
+		$expectedAllowedCharacters = array_merge(range('0', '9'), range('A', 'Z'), range('a', 'z'));
 		$rules = [CoreRules::HEXDIG, CoreRules::ALPHA];
 
-		$actualCombinedRules = CoreRules::generateCharactersFromRules(...$rules);
+		$actualAllowedCharacters = CoreRules::generateCharactersFromRules(...$rules);
 
-		$this->assertEquals($expectedCombinedRules, iterator_to_array($actualCombinedRules));
+		$this->assertEquals($expectedAllowedCharacters, iterator_to_array($actualAllowedCharacters));
+	}
+
+	/**
+	 * @test
+	 */
+	public function can_combine_rules_to_generate_unallowed_characters_upto_an_octet(): void
+	{
+		$expectedUnallowedCharacters = array_merge(
+			range("\x21", "\x2F"),
+			range("\x3A", "\x40"),
+			range("\x5B", "\x60"),
+			range("\x7B","\x7E"),
+			range("\x80", "\xFF")	// 8th bit set
+		);
+		$rules = [CoreRules::ALPHA, CoreRules::CTL, CoreRules::DIGIT, CoreRules::WSP];
+
+		$actualUnallowedCharacters = CoreRules::generateCharactersNotInRules(...$rules);
+
+		$this->assertEquals($expectedUnallowedCharacters, iterator_to_array($actualUnallowedCharacters));
 	}
 
 	// https://tools.ietf.org/html/rfc5234#appendix-B
