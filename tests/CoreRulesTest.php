@@ -229,6 +229,32 @@ final class CoreRulesTest extends TestCase
 		$this->assertEquals($expectedCharacters, $actualCharacters);
 	}
 
+	/**
+	 * @test
+	 */
+	public function can_combine_rules_to_provide_an_allowed_character_list(): void
+	{
+		$expectedCombinedRules = ["\x0D", "\x0D\x0A", "\x0A"];
+		$rules = [CoreRules::CR, CoreRules::CRLF, CoreRules::LF];
+
+		$actualCombinedRules = CoreRules::generateCharactersFromRules(...$rules);
+
+		$this->assertEquals($expectedCombinedRules, iterator_to_array($actualCombinedRules));
+	}
+
+	/**
+	 * @test
+	 */
+	public function combining_rules_to_provide_an_allowed_character_list_with_unique_results(): void
+	{
+		$expectedCombinedRules = array_merge(range('0', '9'), range('A', 'Z'), range('a', 'z'));
+		$rules = [CoreRules::HEXDIG, CoreRules::ALPHA];
+
+		$actualCombinedRules = CoreRules::generateCharactersFromRules(...$rules);
+
+		$this->assertEquals($expectedCombinedRules, iterator_to_array($actualCombinedRules));
+	}
+
 	// https://tools.ietf.org/html/rfc5234#appendix-B
 	public function coreRules(): array
 	{
